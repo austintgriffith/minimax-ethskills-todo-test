@@ -1,0 +1,25 @@
+{
+  "name": "minimax-ethskills-todo-test",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple onchain todo list dApp on Base — built following ethskills.com",
+  "scripts": {
+    "install:all": "yarn install && cd packages/foundry && yarn install && cd ../nextjs && yarn install",
+    "dev": "cd packages/nextjs && yarn dev",
+    "chain": "cd packages/foundry && yarn chain",
+    "fork": "cd packages/foundry && yarn fork",
+    "deploy:local": "cd packages/foundry && yarn deploy:local",
+    "deploy:sepolia": "cd packages/foundry && yarn deploy:sepolia",
+    "deploy:mainnet": "cd packages/foundry && yarn deploy:mainnet",
+    "test": "cd packages/foundry && yarn test",
+    "build": "cd packages/nextjs && yarn build",
+    "ipfs": "cd packages/nextjs && yarn ipfs"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/foundry",
+      "packages/nextjs"
+    ]
+  },
+  "packageManager": "npm@10.8.1"
+}

@@ -1,0 +1,20 @@
+# Git
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.pem
+*.key
+secret/
+secrets/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+cache/
+out/
+broadcast/
+.next/
+build/
+dist/
