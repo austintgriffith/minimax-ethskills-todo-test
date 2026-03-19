@@ -61,8 +61,8 @@ export default function TodoListPage() {
 
   const { data: todoCount } = useScaffoldReadContract({
     contractName: CONTRACT_NAME,
-    functionName: "userTodos",
-    args: [userAddress || "0x0000000000000000000000000000000000000001", 0n],
+    functionName: "getTodoCount",
+    args: [userAddress || "0x0000000000000000000000000000000000000001"],
   }) as { data: bigint | undefined };
 
   const { data: paginatedTodos, refetch: refetchPaginated } = useScaffoldReadContract({
@@ -387,6 +387,12 @@ export default function TodoListPage() {
           </>
         )}
       </main>
+
+      <footer className="text-center py-6 text-sm text-base-content/40 border-t border-base-300">
+        <a href="https://ethskills.com" target="_blank" rel="noopener noreferrer" className="hover:text-base-content/70 transition-colors">
+          Built with ethskills.com
+        </a>
+      </footer>
     </div>
   );
 }
