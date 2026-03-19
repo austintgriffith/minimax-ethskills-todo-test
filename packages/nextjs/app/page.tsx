@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { base } from "viem/chains";
 import { useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
@@ -8,12 +8,7 @@ import { Address } from "~~/components/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth/notification";
 import { getParsedError } from "~~/utils/scaffold-eth/getParsedError";
 import deployedContracts from "~~/contracts/deployedContracts";
-import { ethers } from "ethers";
-import { useBlockNumber } from "wagmi";
-import { useEffect } from "react";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------
 // Contract address — placeholder, will be updated after deploy
 // ---------------------------------------------------------------------------
 const CONTRACT_NAME = "TodoList";
@@ -39,6 +34,11 @@ interface Todo {
 // Main Page
 // ---------------------------------------------------------------------------
 export default function TodoListPage() {
+  // Prevent SSR static prerender crash — wagmi hooks need client context
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  // Don't render anything until mounted (client-side only)
   const { address: userAddress, isConnected } = useAccount();
   const chainId = useChainId();
   const { switchChain, isPending: isSwitchingChain } = useSwitchChain();
@@ -54,8 +54,6 @@ export default function TodoListPage() {
 
   const [newTodo, setNewTodo] = useState("");
   const [txError, setTxError] = useState<string | null>(null);
-  const queryClient = useQueryClient();
-
   // ---------------------------------------------------------------------------
   // Read: todo count + paginated todos
   // ---------------------------------------------------------------------------
@@ -66,13 +64,6 @@ export default function TodoListPage() {
     functionName: "userTodos",
     args: [userAddress || "0x0000000000000000000000000000000000000001", 0n],
   }) as { data: bigint | undefined };
-
-  const { data: todosRaw, refetch: refetchTodos } = useScaffoldReadContract({
-    contractName: CONTRACT_NAME,
-    functionName: "getTodos",
-    args: [userAddress || "0x0000000000000000000000000000000000000001", 0n, BigInt(PAGE_SIZE)],
-    queryOptions: { enabled: false },
-  }) as { data: Todo[] | undefined; refetch: () => void };
 
   const { data: paginatedTodos, refetch: refetchPaginated } = useScaffoldReadContract({
     contractName: CONTRACT_NAME,
@@ -192,6 +183,8 @@ export default function TodoListPage() {
   // ---------------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------------
+  if (!mounted) return null;
+
   return (
     <div className="min-h-screen bg-base-200 text-base-content">
       {/* Header */}

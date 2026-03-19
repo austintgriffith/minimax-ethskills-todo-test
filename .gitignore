@@ -18,3 +18,4 @@ broadcast/
 .next/
 build/
 dist/
+ipfs-upload.config.json
