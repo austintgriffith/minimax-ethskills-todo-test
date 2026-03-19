@@ -3,6 +3,7 @@ import {
   baseAccount,
   ledgerWallet,
   metaMaskWallet,
+  phantomWallet,
   rainbowWallet,
   safeWallet,
   walletConnectWallet,
@@ -19,6 +20,7 @@ const showBurnerWallet =
 
 const wallets = [
   metaMaskWallet,
+  phantomWallet,
   walletConnectWallet,
   ledgerWallet,
   baseAccount,
@@ -32,7 +34,6 @@ const wallets = [
  */
 export const wagmiConnectors = () => {
   // Only create connectors on client-side to avoid SSR issues
-  // TODO: update when https://github.com/rainbow-me/rainbowkit/issues/2476 is resolved
   if (typeof window === "undefined") {
     return [];
   }
@@ -44,9 +45,8 @@ export const wagmiConnectors = () => {
         wallets,
       },
     ],
-
     {
-      appName: "scaffold-eth-2",
+      appName: "onchain Todos",
       projectId: scaffoldConfig.walletConnectProjectId,
     },
   );
