@@ -5,7 +5,9 @@
   "description": "Simple onchain todo list dApp on Base — built following ethskills.com",
   "scripts": {
     "install:all": "yarn install && cd packages/foundry && yarn install && cd ../nextjs && yarn install",
-    "dev": "cd packages/nextjs && yarn dev",
+    "verify": "cd packages/foundry && yarn verify",
+    "verify:base": "cd packages/foundry && yarn verify https://base-mainnet.g.alchemy.com/v2/wBvCtZIIjY_BXlXYs1T_B",
+    "verify:sepolia": "cd packages/foundry && yarn verify https://base-sepolia.g.alchemy.com/v2/wBvCtZIIjY_BXlXYs1T_B",
     "chain": "cd packages/foundry && yarn chain",
     "fork": "cd packages/foundry && yarn fork",
     "deploy:local": "cd packages/foundry && yarn deploy:local",

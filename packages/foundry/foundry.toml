@@ -10,6 +10,8 @@ optimizer_runs = 200
 remappings = [
     "forge-std/=lib/forge-std/src/",
     "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "openzeppelin-contracts/=lib/openzeppelin-contracts/",
+    "solidity-bytes-utils/=lib/solidity-bytes-utils/contracts/",
 ]
 
 [profile.default.fuzz]
